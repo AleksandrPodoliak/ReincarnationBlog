@@ -92,6 +92,14 @@
           </div>
         </div>
       </div>
+      <div class="sessions-text">
+        Для ЛЮБОГО, кто хочет и готов!
+      </div>
+      <div class="sessions-text-footer">
+        Если Вы читаете этот сайт, значит, пришло время для кардинальной
+        трансформации. Вы нашли эффективный инструмент решения своих вопросов.
+        Отбросьте все сомнения и последуйте за своей интуицией!
+      </div>
     </div>
   </section>
 </template>
@@ -103,9 +111,28 @@ export default {
     return {
       sessionsCards: [
         {
-          text:
-            "Пробовал традиционные сеансы и терапии, но облегчения не испытал",
-          img: "@/assets/sessions-1.png",
+          text: `Пробовал традиционные сеансы и терапии, но облегчения не испытал`,
+          img: require(`@/assets/sessions-1.png`),
+        },
+        {
+          text: `Дорожит своим временем. То, что не решалось годами, можно изменить за 1-8 сеансов`,
+          img: require(`@/assets/sessions-2.png`),
+        },
+        {
+          text: `Желает обрести гармонию – идти по тому жизненному пути, который выбрала душа, а не навязало общество`,
+          img: require(`@/assets/sessions-3.png`),
+        },
+        {
+          text: `Долгое время не может найти ответы на свои вопросы. Ходит по кругу и не может изменить сценарии своей жизни (идёт по разрушительным родовым сценариям)`,
+          img: require(`@/assets/sessions-4.png`),
+        },
+        {
+          text: `Имеет страхи и зависимости. Не знает куда двигаться дальше.  Имеет не экологичные отношения. Не может выйти на новый доход, не реализован. Имеет вопросы по здоровью и т.д.`,
+          img: require(`@/assets/sessions-5.png`),
+        },
+        {
+          text: `Хочет не просто получить советы и рекомендации, а установить причинно-следственные связи, чтобы в корне изменить отношение к ситуации`,
+          img: require(`@/assets/sessions-6.png`),
         },
       ],
     };
@@ -250,6 +277,7 @@ header {
   background-image: url("assets/methods-back.png");
   background-size: cover;
   height: 1303px;
+  margin-bottom: 150px;
 }
 
 .methods {
@@ -301,7 +329,7 @@ header {
 
 .sessions {
   &-title {
-    margin: 150px 0 15px 0;
+    margin: 125px 0 15px 0;
     text-align: center;
     font-style: normal;
     font-weight: bold;
@@ -310,13 +338,15 @@ header {
   }
   &-cards {
     width: 1216px;
-    margin: 0 auto;
+    margin: 0 auto 50px auto;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
+    padding-left: 70px;
     &-item {
       position: relative;
       padding: 5px;
-      margin: 30px 120px 30px 80px;
+      margin: 28px 0;
       width: 470px;
       height: 150px;
       background: rgba(255, 241, 247, 0.7);
@@ -343,6 +373,25 @@ header {
         top: -41px;
       }
     }
+  }
+  &-text {
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 25px;
+    color: #ae758d;
+    margin-bottom: 10px;
+  }
+  &-text-footer {
+    text-align: center;
+    width: 598px;
+    height: 96px;
+    margin: 0 auto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 160%;
   }
 }
 
