@@ -57,11 +57,11 @@
       </div>
     </div>
   </section>
-  <section class="methods">
-    <div class="methods-info">
-      <h2 class="methods-info-title">Методика, которая обязательно поможет</h2>
-      <div class="methods-info-block">
-        <div class="methods-info-block__inner">
+  <section class="methods_n_sessions">
+    <div class="methods">
+      <h2 class="methods-title">Методика, которая обязательно поможет</h2>
+      <div class="methods-block">
+        <div class="methods-block__inner">
           Результат зависит от нашей совместной работы - 50/50%. Я не могу
           ручаться за ваше желание познавать себя и искренность намерения к
           трансформациям. Я уверена в действенности этого метода, ведь
@@ -69,10 +69,29 @@
           свою жизнь, и метод сработает на 100%!
         </div>
       </div>
-      <div class="methods-info-text">
+      <div class="methods-text">
         Я готова повести Вас, лишь договоритесь с собой
       </div>
-      <a class="methods-info__button btn" href="#">Выбрать сеанс</a>
+      <a class="methods__button btn" href="#">Выбрать сеанс</a>
+    </div>
+    <div class="sessions">
+      <h2 class="sessions-title">Мои сеансы для тех, кто:</h2>
+      <div class="sessions-cards">
+        <div
+          v-for="(sessionsCard, index) in sessionsCards"
+          :key="index"
+          class="sessions-cards-item"
+        >
+          <div class="sessions-cards-item__inner">
+            {{ sessionsCard.text }}
+            <img
+              class="sessions-cards-item__img"
+              :src="sessionsCard.img"
+              alt="session"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -80,6 +99,17 @@
 <script>
 export default {
   name: "App",
+  data() {
+    return {
+      sessionsCards: [
+        {
+          text:
+            "Пробовал традиционные сеансы и терапии, но облегчения не испытал",
+          img: "@/assets/sessions-1.png",
+        },
+      ],
+    };
+  },
 };
 </script>
 
@@ -216,55 +246,102 @@ header {
   }
 }
 
-.methods {
+.methods_n_sessions {
   background-image: url("assets/methods-back.png");
   background-size: cover;
   height: 1303px;
+}
 
-  &-info {
-    width: 844px;
-    margin: 0 auto;
+.methods {
+  width: 844px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &-title {
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 34px;
+    margin-bottom: 30px;
+  }
+  &-block {
+    padding: 5px;
+    margin-bottom: 30px;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    &-title {
+    width: 100%;
+    background: rgba(255, 241, 247, 0.7);
+    &__inner {
+      display: flex;
+      align-items: center;
+      padding: 20px 15px;
+      border: 1px dashed #ae758d;
+      width: 100%;
+      height: 100%;
       text-align: center;
       font-style: normal;
-      font-weight: bold;
-      font-size: 30px;
-      line-height: 34px;
-      margin-bottom: 30px;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 160%;
     }
-    &-block {
+  }
+  &-text {
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 25px;
+    color: #ae758d;
+    margin-bottom: 35px;
+  }
+}
+
+.sessions {
+  &-title {
+    margin: 150px 0 15px 0;
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 34px;
+  }
+  &-cards {
+    width: 1216px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    &-item {
+      position: relative;
       padding: 5px;
-      margin-bottom: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
+      margin: 30px 120px 30px 80px;
+      width: 470px;
+      height: 150px;
       background: rgba(255, 241, 247, 0.7);
+      box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
       &__inner {
+        padding: 18px 25px 18px 102px;
         display: flex;
         align-items: center;
-        padding: 20px 15px;
-        border: 1px dashed #ae758d;
         width: 100%;
         height: 100%;
-        text-align: center;
+        border: 1px dashed #ae758d;
         font-style: normal;
         font-weight: normal;
         font-size: 16px;
         line-height: 160%;
+        text-align: center;
       }
-    }
-    &-text {
-      text-align: center;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 22px;
-      line-height: 25px;
-      color: #ae758d;
-      margin-bottom: 35px;
+      &__img {
+        position: absolute;
+        width: 196px;
+        height: 240px;
+        display: block;
+        left: -98px;
+        top: -41px;
+      }
     }
   }
 }
