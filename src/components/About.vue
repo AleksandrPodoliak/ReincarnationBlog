@@ -18,7 +18,6 @@
         Ангелов и Арханголов в едином Божественном потоке.
       </p>
     </div>
-    <img class="about__image" src="../assets/about-image.png" alt="image" />
     <h2 class="about__inst-title">Я веду блог в Instagram</h2>
     <a
       class="about__button"
