@@ -102,6 +102,181 @@
       </div>
     </div>
   </section>
+  <section class="main">
+    <div class="problems">
+      <h2 class="problems-title">Что можно проработать?</h2>
+      <img
+        class="problems-plane"
+        src="@/assets/problems-plane.png"
+        alt="plane"
+      />
+      <div class="problems-line"></div>
+      <div class="problems-point point1">
+        <img
+          src="@/assets/problems-point.png"
+          alt="point"
+          class="problems-point__img"
+        />
+        <p class="problems-point__text right">
+          Повторяющиеся сценарии в жизни, как не пройденный урок
+        </p>
+      </div>
+      <div class="problems-point point2">
+        <img
+          src="@/assets/problems-point.png"
+          alt="point"
+          class="problems-point__img"
+        />
+        <p class="problems-point__text left">
+          Отношения с партнёром, детьми и другими членами семьи
+        </p>
+      </div>
+      <div class="problems-point point3">
+        <img
+          src="@/assets/problems-point.png"
+          alt="point"
+          class="problems-point__img"
+        />
+        <p class="problems-point__text right">
+          Сканирование физического тела, работа с заболеваниями
+        </p>
+      </div>
+      <div class="problems-point point4">
+        <img
+          src="@/assets/problems-point.png"
+          alt="point"
+          class="problems-point__img"
+        />
+        <p class="problems-point__text left">
+          Финансовые блоки и отношение к деньгам
+        </p>
+      </div>
+      <div class="problems-point point5">
+        <img
+          src="@/assets/problems-point.png"
+          alt="point"
+          class="problems-point__img"
+        />
+        <p class="problems-point__text right">
+          Перепросмотр зачатия и рождения
+        </p>
+      </div>
+      <div class="problems-point point6">
+        <img
+          src="@/assets/problems-point.png"
+          alt="point"
+          class="problems-point__img"
+        />
+        <p class="problems-point__text left">
+          Родительско-детские отношения
+        </p>
+      </div>
+      <div class="problems-point point7">
+        <img
+          src="@/assets/problems-point.png"
+          alt="point"
+          class="problems-point__img"
+        />
+        <p class="problems-point__text right">
+          Родовые программы и сценарии
+        </p>
+      </div>
+      <div class="problems-point point8">
+        <img
+          src="@/assets/problems-point.png"
+          alt="point"
+          class="problems-point__img"
+        />
+        <p class="problems-point__text left">
+          Призвание и предназначение
+        </p>
+      </div>
+      <div class="problems-point point9">
+        <img
+          src="@/assets/problems-point.png"
+          alt="point"
+          class="problems-point__img"
+        />
+        <p class="problems-point__text right">
+          Детские и взрослые травмы
+        </p>
+      </div>
+      <div class="problems-point point10">
+        <img
+          src="@/assets/problems-point.png"
+          alt="point"
+          class="problems-point__img"
+        />
+        <p class="problems-point__text left">
+          Воплощения в своём роду
+        </p>
+      </div>
+      <div class="problems-point point11">
+        <img
+          src="@/assets/problems-point.png"
+          alt="point"
+          class="problems-point__img"
+        />
+        <p class="problems-point__text right">
+          Кармические отношения
+        </p>
+      </div>
+      <div class="problems-point point12">
+        <img
+          src="@/assets/problems-point.png"
+          alt="point"
+          class="problems-point__img"
+        />
+        <p class="problems-point__text left">
+          Работа со страхами
+        </p>
+      </div>
+    </div>
+    <div class="result">
+      <h2 class="result-title">Результаты, которыми вы будете гордиться</h2>
+      <div class="result-block">
+        <div
+          v-for="(text, index) in resultText"
+          :key="index"
+          class="result-block-item"
+        >
+          <div class="result-block-item__inner">
+            {{ text }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="price">
+      <h2 class="price-title">Стоимость</h2>
+      <div class="price-block">
+        <div
+          v-for="(program, index) in programs"
+          :key="index"
+          class="price-block-item"
+        >
+          <div class="price-block-item-inner">
+            <div class="price-block-item-inner__title">{{ program.name }}</div>
+            <div class="price-block-item-inner__insession">В сеанс входит:</div>
+            <div class="price-block-item-inner__descr">
+              {{ program.descr[0] }}<br /><br />{{ program.descr[1]
+              }}<br /><br />{{ program.descr[2] }}<br /><br />{{
+                program.descr[3]
+              }}
+            </div>
+            <div class="price-block-item-inner__oldprice">
+              {{ program.oldPrice }}
+            </div>
+            <div class="price-block-item-inner__newprice">
+              {{ program.newPrice }}
+            </div>
+            <a class="price-block-item-inner__button btn" href="#"
+              >Записаться на сеанс</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -133,6 +308,58 @@ export default {
         {
           text: `Хочет не просто получить советы и рекомендации, а установить причинно-следственные связи, чтобы в корне изменить отношение к ситуации`,
           img: require(`@/assets/sessions-6.png`),
+        },
+      ],
+      resultText: [
+        "Осознанное реагирование на свою жизнь, ситуации и людей. Сформируете новые нейронные связи",
+        "Научитесь менять пространство вокруг себя наилучшим образом, улавливая подсказки Вселенной",
+        "Обострение каналов восприятия мира: я знаю, я вижу, я чувствую, я слышу",
+        "Получите поддержку своих наставников, рода и Ангелов Хранителей",
+      ],
+      programs: [
+        {
+          name: "Первый шаг",
+          descr: [
+            "1 погружение",
+            "Предконсультация (формирование запроса клиента, ответы на вопросы) до 30 мин",
+            "Cеанс 2-2.5 часа по вашему запросу",
+            "Постконсультация (спустя 2-7 дней после сеанса) до 30 мин",
+          ],
+          oldPrice: "",
+          newPrice: "100$",
+        },
+        {
+          name: "Пакет «Осознание»",
+          descr: [
+            "4 погружения",
+            "Предконсультации (формирование запроса клиента, ответы на вопросы перед каждым сеансом) до 30 мин",
+            "Сеанс 2-2.5 часа по вашему запросу",
+            "Постконсультация (спустя 2-7 дней после сеанса) до 30 мин",
+          ],
+          oldPrice: "400$",
+          newPrice: "320$",
+        },
+        {
+          name: "Пакет «Преображение»",
+          descr: [
+            "6 погружений",
+            "Предконсультации (формирование запроса клиента, ответы на вопросы перед каждым сеансом) до 30 мин",
+            "Сеанс 2-2.5 часа по вашему запросу",
+            "Постконсультация (спустя 2-7 дней после сеанса) до 30 мин",
+          ],
+          oldPrice: "600$",
+          newPrice: "450$",
+        },
+        {
+          name: "Пакет «Перерождение»",
+          descr: [
+            "8 погружений",
+            "Предконсультации (формирование запроса клиента, ответы на вопросы перед каждым сеансом) до 30 мин",
+            "Сеанс 2-2.5 часа по вашему запросу",
+            "Постконсультация (спустя 2-7 дней после сеанса) до 30 мин",
+          ],
+          oldPrice: "800$",
+          newPrice: "560$",
         },
       ],
     };
@@ -231,6 +458,12 @@ header {
       top: 75px;
       right: -250px;
     }
+    &__button {
+      width: 280px;
+      height: 50px;
+      font-size: 18px;
+      line-height: 50px;
+    }
   }
 }
 .product {
@@ -277,7 +510,7 @@ header {
   background-image: url("assets/methods-back.png");
   background-size: cover;
   height: 1303px;
-  margin-bottom: 150px;
+  margin-bottom: 80px;
 }
 
 .methods {
@@ -324,6 +557,12 @@ header {
     line-height: 25px;
     color: #ae758d;
     margin-bottom: 35px;
+  }
+  &__button {
+    width: 280px;
+    height: 50px;
+    font-size: 18px;
+    line-height: 50px;
   }
 }
 
@@ -395,13 +634,235 @@ header {
   }
 }
 
+.main {
+  background-image: url("assets/main-back.png");
+  background-size: cover;
+  height: 3348px;
+  margin-bottom: 80px;
+}
+
+.problems {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 70px;
+  height: 1000px;
+  &-title {
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 34px;
+  }
+  &-plane {
+    position: absolute;
+    left: 50%;
+    margin-left: -102px;
+    width: 200px;
+    height: 200px;
+  }
+  &-line {
+    position: absolute;
+    left: 50%;
+    margin-left: -2px;
+    top: 200px;
+    width: 4px;
+    height: 800px;
+    background: linear-gradient(
+      180deg,
+      rgba(174, 117, 141, 0.6) 25.71%,
+      rgba(174, 117, 141, 0) 100%
+    );
+    filter: blur(4px);
+  }
+  &-point {
+    position: absolute;
+    left: 50%;
+    margin-left: -10px;
+    &__img {
+      width: 20px;
+      height: 20px;
+    }
+    &__text {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      height: 26px;
+      line-height: 26px;
+      padding: 0 15px;
+      position: absolute;
+      top: 0;
+      margin-top: -5px;
+      width: 434px;
+      &.left {
+        left: 100%;
+        text-align: left;
+      }
+      &.right {
+        right: 100%;
+        text-align: right;
+      }
+    }
+    &.point1 {
+      top: 245px;
+    }
+    &.point2 {
+      top: 295px;
+    }
+    &.point3 {
+      top: 345px;
+    }
+    &.point4 {
+      top: 395px;
+    }
+    &.point5 {
+      top: 445px;
+    }
+    &.point6 {
+      top: 495px;
+    }
+    &.point7 {
+      top: 545px;
+    }
+    &.point8 {
+      top: 595px;
+    }
+    &.point9 {
+      top: 645px;
+    }
+    &.point10 {
+      top: 695px;
+    }
+    &.point11 {
+      top: 745px;
+    }
+    &.point12 {
+      top: 795px;
+    }
+  }
+}
+
+.result {
+  margin-bottom: 150px;
+  &-title {
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 34px;
+  }
+  &-block {
+    width: 1216px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    &-item {
+      margin-top: 30px;
+      width: 577px;
+      height: 102px;
+      padding: 5px;
+      background: rgba(255, 241, 247, 0.7);
+      box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
+      &__inner {
+        text-align: center;
+        border: 1px dashed #ae758d;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+.price {
+  &-title {
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 34px;
+    margin-bottom: 50px;
+  }
+  &-block {
+    width: 1216px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    &-item {
+      padding: 5px;
+      width: 289px;
+      height: 490px;
+      background: rgba(255, 241, 247, 0.7);
+      box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
+      &-inner {
+        padding: 20px 20px 25px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        border: 1px dashed #ae758d;
+        &__title {
+          font-style: normal;
+          font-weight: bold;
+          font-size: 18px;
+          line-height: 20px;
+          margin-bottom: 15px;
+        }
+        &__insession {
+          font-style: normal;
+          font-weight: bold;
+          font-size: 15px;
+          line-height: 17px;
+          margin-bottom: 10px;
+        }
+        &__descr {
+          text-align: center;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 15px;
+          line-height: 135%;
+          margin-bottom: 20px;
+        }
+        &__oldprice {
+          width: 56px;
+          height: 34px;
+          text-align: center;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 30px;
+          line-height: 34px;
+          text-decoration-line: line-through;
+          color: #bdbdbd;
+        }
+        &__newprice {
+          text-align: center;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 48px;
+          line-height: 54px;
+          color: #ae758d;
+          margin-bottom: 25px;
+        }
+        &__button {
+          width: 239px;
+          height: 40px;
+          font-size: 16px;
+          line-height: 40px;
+        }
+      }
+    }
+  }
+}
+
 .btn {
-  width: 280px;
-  height: 50px;
   background: linear-gradient(91.83deg, #ae758d 0%, #353966 100%);
   box-shadow: 0px 7px 25px rgba(0, 0, 0, 0.35);
-  font-size: 18px;
-  line-height: 50px;
   text-align: center;
   color: #fff;
   text-decoration: none;
