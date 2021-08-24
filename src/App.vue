@@ -276,7 +276,97 @@
         </div>
       </div>
     </div>
+    <div class="about">
+      <h2 class="about-title">Обо мне</h2>
+      <ul class="about-list">
+        Мой опыт – улучшение качества вашей жизни. Немного обо мне:
+        <li
+          class="about-list__item"
+          v-for="(about, index) in aboutList"
+          :key="index"
+        >
+          {{ about }}
+        </li>
+      </ul>
+      <p class="about-text">
+        Три года назад реинкарнационика помогла мне отыскать себя, начать ценить
+        имеющееся и показала путь, по которому моя душа запланировала двигаться
+        в этом воплощении. Сегодня я горжусь, что являюсь целителем душ – я и
+        мои клиенты совершенствуемся, меняем свою жизнь к лучшему, выходя на
+        новый уровень. Посылаю лучи только чистой энергетики – работаю через
+        Творца, Светлых Учителей, Ангелов и Архангелов. Помните, только человек,
+        достигший гармонии с собой, способен помочь обрести душевное равновесие
+        другим.
+      </p>
+      <img src="@/assets/about-photo.png" alt="photo" class="about-photo" />
+      <h2 class="about-title-inst">Я веду блог в Instagram</h2>
+      <a href="#" class="about-button">Instagram</a>
+    </div>
+    <div class="form">
+      <h2 class="form-title">Остались ещё вопросы или есть сомнения?</h2>
+      <p class="form-addtext">Запишись на бесплатную консультацию</p>
+      <form class="form-inputs">
+        <div class="form-inputs-block">
+          <span class="form-inputs-block__name">Ваше имя:</span>
+          <input id="text" type="text" placeholder="Владислава" />
+        </div>
+        <div class="form-inputs-block">
+          <span class="form-inputs-block__name">Ваш номер телефона:</span>
+          <input id="tel" type="tel" placeholder="+38 099 999 99 99" />
+        </div>
+        <div class="form-inputs-block">
+          <span class="form-inputs-block__name">Ваш e-mail:</span>
+          <input id="email" type="email" placeholder="vladislava99@gmail.com" />
+        </div>
+        <p class="form-inputs-notice">
+          Нажимая на кнопку «Записаться» Вы соглашаетесь на обработку
+          персональных данных
+        </p>
+        <input
+          class="form-inputs-button btn"
+          type="submit"
+          value="Записаться"
+        />
+      </form>
+    </div>
   </section>
+  <section class="contact">
+    <h2 class="contact-title">Контакты</h2>
+    <div class="contact-block">
+      <div
+        v-for="(contact, index) in contacts"
+        :key="index"
+        class="contact-block-item"
+      >
+        <div class="contact-block-item__inner">
+          <p class="contact-block-item__inner-title">
+            {{ contact.title }}
+          </p>
+          <p class="contact-block-item__inner-text">
+            {{ contact.text }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <img src="@/assets/footer-flower.png" alt="flower" class="footer-flower" />
+    <a href="#" class="footer-upper"
+      >Наверх
+      <svg
+        width="6"
+        height="18"
+        viewBox="0 0 6 18"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M3 0L0.113249 5L5.88675 5L3 0ZM2.5 4.5L2.5 18L3.5 18L3.5 4.5L2.5 4.5Z"
+          fill="#AE758D"
+        />
+      </svg>
+    </a>
+  </footer>
 </template>
 
 <script>
@@ -284,6 +374,23 @@ export default {
   name: "App",
   data() {
     return {
+      contacts: [
+        {
+          title: "Номер телефона",
+          text: "+38 (067) 765 13 07",
+        },
+        {
+          title: "Instagram",
+          text: "@nikolaeva.yuliia",
+        },
+        { title: "Telegram", text: "@YuliiaNikolaieva" },
+      ],
+      aboutList: [
+        "окончила Институт реинкарнационики Мариса Дрешманиса;",
+        "прошла целительный курс Татьяны Абоалелы;",
+        " уже несколько лет делюсь приобретенным опытом, на основе которого запустила собственный марафон;",
+        "использую в своей жизни дыхательные и даосские пратики, медитации, аффирмации, интуитивное питание, вакуум живота и не только – то, что способствует оздоровлению тела и контакту с душой.",
+      ],
       sessionsCards: [
         {
           text: `Пробовал традиционные сеансы и терапии, но облегчения не испытал`,
@@ -381,7 +488,9 @@ export default {
   color: #111;
 }
 #app {
-  width: 1920px;
+  overflow: hidden;
+  min-width: 1216px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -779,6 +888,7 @@ header {
 }
 
 .price {
+  margin-bottom: 150px;
   &-title {
     text-align: center;
     font-style: normal;
@@ -856,6 +966,252 @@ header {
           line-height: 40px;
         }
       }
+    }
+  }
+}
+
+.about {
+  position: relative;
+  width: 1216px;
+  margin: 0 auto 150px auto;
+  &-title {
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 34px;
+    margin-bottom: 50px;
+  }
+  &-list {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 160%;
+    list-style: none;
+    &__item {
+      position: relative;
+      margin: 10px 0 0 100px;
+      max-width: 495px;
+      &::before {
+        position: absolute;
+        content: "";
+        top: 8px;
+        left: -25px;
+        width: 10px;
+        height: 10px;
+        background-color: #ae758d;
+      }
+    }
+  }
+  &-text {
+    margin: 10px 0 50px 0;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 160%;
+    width: 804px;
+  }
+  &-photo {
+    position: absolute;
+    top: 0;
+    right: -185px;
+  }
+  &-title-inst {
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 160%;
+    margin-bottom: 10px;
+  }
+  &-button {
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    z-index: 100;
+    margin: 0 auto;
+    display: block;
+    width: 280px;
+    height: 60px;
+    line-height: 60px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    border: 3px solid #ae758d;
+  }
+}
+
+.form {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 1216px;
+  margin: 0 auto;
+  &-title {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 34px;
+    margin-bottom: 10px;
+  }
+  &-addtext {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 27px;
+    margin-bottom: 30px;
+  }
+  &-inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &-block {
+      padding: 2px;
+      position: relative;
+      width: 392px;
+      height: 40px;
+      background: rgba(255, 241, 247, 0.7);
+      box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
+      &:not(:last-child) {
+        margin-top: 15px;
+      }
+      &:last-child {
+        margin-top: 54px;
+      }
+      &__name {
+        position: absolute;
+        top: 50%;
+        margin-top: -6px;
+        left: 20px;
+        display: block;
+        height: 18px;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 18px;
+      }
+      & input {
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        border: 1px dashed #ae758d;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 100%;
+        &:focus {
+          outline: none;
+        }
+        &::placeholder {
+          font-style: normal;
+          font-weight: bold;
+          font-size: 18px;
+          line-height: 100%;
+          color: #b9b9b9;
+        }
+      }
+      & input[type="text"] {
+        padding-left: 102px;
+      }
+      & input[type="tel"] {
+        padding-left: 174px;
+      }
+      & input[type="email"] {
+        padding-left: 108px;
+      }
+    }
+    input[type="submit"] {
+      width: 239px;
+      height: 40px;
+      margin-top: 46px;
+      border: none;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+    }
+    &-notice {
+      margin-top: 10px;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 13px;
+      color: #4f4f4f;
+    }
+  }
+}
+
+.contact {
+  width: 907px;
+  margin: 0 auto 200px auto;
+  &-title {
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 34px;
+    margin-bottom: 30px;
+  }
+  &-block {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    &-item {
+      padding: 5px;
+      width: 289px;
+      height: 81px;
+      background: rgba(255, 241, 247, 0.7);
+      box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
+      &__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        border: 1px dashed #ae758d;
+        &-title {
+          margin-top: 10px;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 16px;
+          line-height: 18px;
+        }
+        &-text {
+          margin-top: 10px;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 20px;
+          line-height: 22px;
+          color: #ae758d;
+        }
+      }
+    }
+  }
+}
+
+.footer {
+  position: relative;
+  width: 1216px;
+  margin: 0 auto 50px auto;
+  display: flex;
+  justify-content: center;
+  &-upper {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    margin-top: -9px;
+    right: 0;
+    width: 65px;
+    height: 18px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 18px;
+    color: #ae758d;
+    text-decoration: none;
+    & svg {
+      margin-left: 11px;
     }
   }
 }
