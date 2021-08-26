@@ -248,7 +248,24 @@
         </div>
       </div>
     </div>
-    <modal-price v-if="isModalPrice" @hideModalPrice="hideModalPrice"/>
+    <modal-price
+      v-if="isModalPrice"
+      @hideModalPrice="hideModalPrice"
+      @successModalPrice="successModalPrice"
+      :programTitle="programTitle"
+      :programPrice="programPrice"
+    />
+    <modal-thanks
+      v-if="isModalThanks"
+      @hideModalThanks="hideModalThanks"
+      :titleModalThanks="titleModalThanks"
+      :textModalThanks="textModalThanks"
+    />
+    <modal-image
+      v-if="isModalImage"
+      @hideModalImage="hideModalImage"
+      :selectedImage="selectedImage"
+    />
     <div class="price">
       <a name="price"></a>
       <h2 class="price-title">Стоимость</h2>
@@ -262,7 +279,9 @@
         >
           <div class="price-block-item-inner">
             <div class="price-block-item-inner__title">{{ program.name }}</div>
-            <div class="price-block-item-inner__insession">В сеанс входит:</div>
+            <div class="price-block-item-inner__insession">
+              В {{ program.content }} входит:
+            </div>
             <div class="price-block-item-inner__descr">
               {{ program.descr[0] }}<br /><br />{{ program.descr[1]
               }}<br /><br />{{ program.descr[2] }}<br /><br />{{
@@ -277,6 +296,7 @@
             </div>
             <div
               class="price-block-item-inner__button btn"
+              :data-id="program.id"
               @click="showModalPrice"
             >
               Записаться на Сеанс
@@ -319,26 +339,45 @@
     <div class="form">
       <h2 class="form-title">Остались ещё вопросы или есть сомнения?</h2>
       <p class="form-addtext">Запишись на бесплатную консультацию</p>
-      <form class="form-inputs">
+      <iframe name="votar" style="display:none;"></iframe>
+      <form class="form-inputs" target="votar">
         <div class="form-inputs-block">
           <span class="form-inputs-block__name">Ваше имя:</span>
-          <input id="text" type="text" placeholder="Владислава" />
+          <input
+            id="text"
+            type="text"
+            placeholder="Владислава"
+            v-model="userName"
+            required
+          />
         </div>
         <div class="form-inputs-block">
           <span class="form-inputs-block__name">Ваш номер телефона:</span>
-          <input id="tel" type="tel" placeholder="+38 099 999 99 99" />
+          <input
+            id="tel"
+            type="tel"
+            placeholder="+38 099 999 99 99"
+            v-model="userPhone"
+            required
+          />
         </div>
         <div class="form-inputs-block">
           <span class="form-inputs-block__name">Ваш e-mail:</span>
-          <input id="email" type="email" placeholder="vladislava99@gmail.com" />
+          <input
+            id="email"
+            type="email"
+            placeholder="vladislava99@gmail.com"
+            v-model="userEmail"
+          />
         </div>
         <p class="form-inputs-notice">
           Нажимая на кнопку «Записаться» Вы соглашаетесь на обработку
           персональных данных
         </p>
         <input
-          class="form-inputs-button btn"
           type="submit"
+          @click="showModalThanks"
+          class="form-inputs-button btn"
           value="Записаться"
         />
       </form>
@@ -354,33 +393,12 @@
         @click="decrSliderCount"
       />
       <img
-        src="@/assets/review1.png"
-        alt="review1"
-        class="reviews-slider__img"
-      />
-      <img
-        src="@/assets/review2.png"
-        alt="review2"
-        class="reviews-slider__img"
-      />
-      <img
-        src="@/assets/review3.png"
-        alt="review3"
-        class="reviews-slider__img"
-      />
-      <img
-        src="@/assets/review4.png"
-        alt="review4"
-        class="reviews-slider__img"
-      />
-      <img
-        src="@/assets/review5.png"
-        alt="review5"
-        class="reviews-slider__img"
-      />
-      <img
-        src="@/assets/review6.png"
-        alt="review6"
+        @click="selectImage"
+        v-for="(n, index) in 7"
+        :key="index"
+        :src="require(`@/assets/review` + (index + 1) + `.png`)"
+        :data-photo="`review` + (index + 1)"
+        alt="review"
         class="reviews-slider__img"
       />
       <img
@@ -393,7 +411,7 @@
     <div class="reviews-points">
       <div
         class="reviews-points__point"
-        v-for="(n, index) in 6"
+        v-for="(n, index) in 7"
         :key="index"
       ></div>
     </div>
@@ -450,9 +468,13 @@
 
 <script>
 import ModalPrice from "./components/ModalPrice.vue";
+import ModalThanks from "./components/ModalThanks.vue";
+import ModalImage from "./components/ModalImage.vue";
+import axios from "axios";
+
 export default {
   name: "App",
-  components: { ModalPrice },
+  components: { ModalPrice, ModalThanks, ModalImage },
   data() {
     return {
       contacts: [
@@ -515,7 +537,9 @@ export default {
       ],
       programs: [
         {
+          id: "0",
           name: "Первый шаг",
+          content: "сеанс",
           descr: [
             "1 погружение",
             "Предконсультация (формирование запроса клиента, ответы на вопросы) до 30 мин",
@@ -526,7 +550,9 @@ export default {
           newPrice: "100$",
         },
         {
+          id: "1",
           name: "Пакет «Осознание»",
+          content: "пакет",
           descr: [
             "4 погружения",
             "Предконсультации (формирование запроса клиента, ответы на вопросы перед каждым сеансом) до 30 мин",
@@ -537,7 +563,9 @@ export default {
           newPrice: "320$",
         },
         {
+          id: "2",
           name: "Пакет «Преображение»",
+          content: "пакет",
           descr: [
             "6 погружений",
             "Предконсультации (формирование запроса клиента, ответы на вопросы перед каждым сеансом) до 30 мин",
@@ -548,7 +576,9 @@ export default {
           newPrice: "450$",
         },
         {
+          id: "3",
           name: "Пакет «Перерождение»",
+          content: "пакет",
           descr: [
             "8 погружений",
             "Предконсультации (формирование запроса клиента, ответы на вопросы перед каждым сеансом) до 30 мин",
@@ -562,14 +592,78 @@ export default {
       sliderCount: 0,
       interval: Function,
       isModalPrice: false,
+      isModalThanks: false,
+      isModalImage: false,
+      programTitle: "",
+      programPrice: "",
+      titleModalThanks: "",
+      textModalThanks: "",
+      userName: "",
+      userPhone: "",
+      userEmail: "",
+      selectedImage: "",
     };
   },
   methods: {
-    showModalPrice() {
+    selectImage(event) {
+      clearInterval(this.interval);
+      const _this = event.target;
+      this.selectedImage = _this.getAttribute("data-photo");
+      this.isModalImage = true;
+    },
+    hideModalImage() {
+      this.interval = setInterval(() => {
+        this.sliderCount = this.sliderCount == 6 ? 0 : this.sliderCount + 1;
+        this.pics.forEach((el) => {
+          el.style.display = "none";
+        });
+        this.points.forEach((el) => {
+          el.style.backgroundColor = "#b9b9b9";
+        });
+        this.pics[this.sliderCount].style.display = "block";
+        this.points[this.sliderCount].style.backgroundColor = "#AE758D";
+      }, 5000);
+      this.selectedImage = "";
+      this.isModalImage = false;
+    },
+    successModalPrice(userData) {
+      const apiUrl = `https://api.telegram.org/bot${process.env.VUE_APP_TOKEN}/sendMessage`;
+      axios.post(apiUrl, {
+        chat_id: "645151842",
+        text: `Заявка на ${this.programTitle} от:\n\n${userData.userName}\n${userData.userPhone}\n${userData.userEmail}`,
+      });
+
+      this.isModalPrice = false;
+      this.titleModalThanks = "Спасибо! Ваша запись принята!";
+      this.textModalThanks =
+        "Для уточнения всех деталей с вами свяжутся в ближайшее время";
+      this.isModalThanks = true;
+    },
+    showModalThanks() {
+      if (this.userName && this.userPhone) {
+        const apiUrl = `https://api.telegram.org/bot${process.env.VUE_APP_TOKEN}/sendMessage`;
+        axios.post(apiUrl, {
+          chat_id: "645151842",
+          text: `Заявка на консультацию от:\n\n${this.userName}\n${this.userPhone}\n${this.userEmail}`,
+        });
+
+        this.titleModalThanks = "Спасибо! Ваша запись на консультацию принята!";
+        this.textModalThanks = "С вами свяжутся в ближайшее время";
+        this.isModalThanks = true;
+      }
+    },
+    showModalPrice(event) {
+      const _this = event.target;
+      const dataId = _this.getAttribute("data-id");
+      this.programTitle = this.programs[dataId].name;
+      this.programPrice = this.programs[dataId].newPrice;
       this.isModalPrice = true;
     },
     hideModalPrice() {
-      // this.isModalPrice = false;
+      this.isModalPrice = false;
+    },
+    hideModalThanks() {
+      this.isModalThanks = false;
     },
     hoverPrice(event) {
       const _this = event.target;
@@ -591,7 +685,7 @@ export default {
     },
     decrSliderCount() {
       clearInterval(this.interval);
-      this.sliderCount = this.sliderCount == 0 ? 5 : this.sliderCount - 1;
+      this.sliderCount = this.sliderCount == 0 ? 6 : this.sliderCount - 1;
       this.pics.forEach((el) => {
         el.style.display = "none";
       });
@@ -601,7 +695,7 @@ export default {
       this.pics[this.sliderCount].style.display = "block";
       this.points[this.sliderCount].style.backgroundColor = "#AE758D";
       this.interval = setInterval(() => {
-        this.sliderCount = this.sliderCount == 5 ? 0 : this.sliderCount + 1;
+        this.sliderCount = this.sliderCount == 6 ? 0 : this.sliderCount + 1;
         this.pics.forEach((el) => {
           el.style.display = "none";
         });
@@ -614,7 +708,7 @@ export default {
     },
     addSliderCount() {
       clearInterval(this.interval);
-      this.sliderCount = this.sliderCount == 5 ? 0 : this.sliderCount + 1;
+      this.sliderCount = this.sliderCount == 6 ? 0 : this.sliderCount + 1;
       this.pics.forEach((el) => {
         el.style.display = "none";
       });
@@ -624,7 +718,7 @@ export default {
       this.pics[this.sliderCount].style.display = "block";
       this.points[this.sliderCount].style.backgroundColor = "#AE758D";
       this.interval = setInterval(() => {
-        this.sliderCount = this.sliderCount == 5 ? 0 : this.sliderCount + 1;
+        this.sliderCount = this.sliderCount == 6 ? 0 : this.sliderCount + 1;
         this.pics.forEach((el) => {
           el.style.display = "none";
         });
@@ -642,7 +736,7 @@ export default {
     this.pics[this.sliderCount].style.display = "block";
     this.points[this.sliderCount].style.backgroundColor = "#AE758D";
     this.interval = setInterval(() => {
-      this.sliderCount = this.sliderCount == 5 ? 0 : this.sliderCount + 1;
+      this.sliderCount = this.sliderCount == 6 ? 0 : this.sliderCount + 1;
       this.pics.forEach((el) => {
         el.style.display = "none";
       });
@@ -1147,6 +1241,8 @@ header {
           height: 40px;
           font-size: 16px;
           line-height: 40px;
+          cursor: pointer;
+          user-select: none;
         }
       }
     }
@@ -1305,15 +1401,6 @@ header {
         padding-left: 108px;
       }
     }
-    input[type="submit"] {
-      width: 239px;
-      height: 40px;
-      margin-top: 46px;
-      border: none;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 16px;
-    }
     &-notice {
       margin-top: 10px;
       font-style: normal;
@@ -1321,6 +1408,18 @@ header {
       font-size: 12px;
       line-height: 13px;
       color: #4f4f4f;
+    }
+    &-button {
+      cursor: pointer;
+      user-select: none;
+      width: 239px;
+      height: 40px;
+      line-height: 40px;
+      margin-top: 46px;
+      border: none;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
     }
   }
 }
@@ -1347,6 +1446,8 @@ header {
     align-items: center;
     &__img {
       display: none;
+      height: 330px;
+      cursor: pointer;
     }
     &__arrow-left,
     &__arrow-right {
