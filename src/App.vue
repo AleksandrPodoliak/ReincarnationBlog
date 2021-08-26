@@ -4,7 +4,7 @@
       <div class="header-content-lotos">
         <img src="@/assets/header-lotos.png" alt="lotos" />
         <div class="header-content-lotos__bigline"></div>
-        <a href="tel:+380677651307">
+        <a href="tel:+380677651307" target="_self">
           <img src="@/assets/header-viber.png" alt="viber" />
         </a>
         <a
@@ -28,7 +28,9 @@
           позволь себе отыскать ответы в прошлых жизнях, во Благо своего
           светлого будущего.
         </p>
-        <a class="header-content-info__button btn" href="#">Выбрать сеанс</a>
+        <a class="header-content-info__button btn" href="#price"
+          >Выбрать сеанс</a
+        >
       </div>
       <img
         class="header-content-info__photo"
@@ -72,7 +74,7 @@
       <div class="methods-text">
         Я готова повести Вас, лишь договоритесь с собой
       </div>
-      <a class="methods__button btn" href="#">Выбрать сеанс</a>
+      <a class="methods__button btn" href="#price">Выбрать сеанс</a>
     </div>
     <div class="sessions">
       <h2 class="sessions-title">Мои сеансы для тех, кто:</h2>
@@ -246,10 +248,14 @@
         </div>
       </div>
     </div>
+    <modal-price v-if="isModalPrice" @hideModalPrice="hideModalPrice"/>
     <div class="price">
+      <a name="price"></a>
       <h2 class="price-title">Стоимость</h2>
       <div class="price-block">
         <div
+          @mouseenter="hoverPrice"
+          @mouseleave="unhoverPrice"
           v-for="(program, index) in programs"
           :key="index"
           class="price-block-item"
@@ -269,9 +275,12 @@
             <div class="price-block-item-inner__newprice">
               {{ program.newPrice }}
             </div>
-            <a class="price-block-item-inner__button btn" href="#"
-              >Записаться на сеанс</a
+            <div
+              class="price-block-item-inner__button btn"
+              @click="showModalPrice"
             >
+              Записаться на Сеанс
+            </div>
           </div>
         </div>
       </div>
@@ -300,7 +309,12 @@
       </p>
       <img src="@/assets/about-photo.png" alt="photo" class="about-photo" />
       <h2 class="about-title-inst">Я веду блог в Instagram</h2>
-      <a href="#" class="about-button">Instagram</a>
+      <a
+        target="_blank"
+        href="https://www.instagram.com/nikolaeva.yuliia/?r=nametag"
+        class="about-button"
+        >Instagram</a
+      >
     </div>
     <div class="form">
       <h2 class="form-title">Остались ещё вопросы или есть сомнения?</h2>
@@ -330,6 +344,67 @@
       </form>
     </div>
   </section>
+  <section class="reviews">
+    <h2 class="reviews-title">Отзывы</h2>
+    <div class="reviews-slider">
+      <img
+        src="@/assets/arrow-left.png"
+        alt="arrow-left"
+        class="reviews-slider__arrow-left"
+        @click="decrSliderCount"
+      />
+      <img
+        src="@/assets/review1.png"
+        alt="review1"
+        class="reviews-slider__img"
+      />
+      <img
+        src="@/assets/review2.png"
+        alt="review2"
+        class="reviews-slider__img"
+      />
+      <img
+        src="@/assets/review3.png"
+        alt="review3"
+        class="reviews-slider__img"
+      />
+      <img
+        src="@/assets/review4.png"
+        alt="review4"
+        class="reviews-slider__img"
+      />
+      <img
+        src="@/assets/review5.png"
+        alt="review5"
+        class="reviews-slider__img"
+      />
+      <img
+        src="@/assets/review6.png"
+        alt="review6"
+        class="reviews-slider__img"
+      />
+      <img
+        src="@/assets/arrow-right.png"
+        alt="arrow-right"
+        class="reviews-slider__arrow-right"
+        @click="addSliderCount"
+      />
+    </div>
+    <div class="reviews-points">
+      <div
+        class="reviews-points__point"
+        v-for="(n, index) in 6"
+        :key="index"
+      ></div>
+    </div>
+    <p class="reviews-text">Больше отзывов Вы можете найти в моем Instagram</p>
+    <a
+      target="_blank"
+      href="https://www.instagram.com/nikolaeva.yuliia/?r=nametag"
+      class="reviews-button"
+      >Instagram</a
+    >
+  </section>
   <section class="contact">
     <h2 class="contact-title">Контакты</h2>
     <div class="contact-block">
@@ -342,9 +417,13 @@
           <p class="contact-block-item__inner-title">
             {{ contact.title }}
           </p>
-          <p class="contact-block-item__inner-text">
+          <a
+            :target="contact.target"
+            :href="contact.href"
+            class="contact-block-item__inner-text"
+          >
             {{ contact.text }}
-          </p>
+          </a>
         </div>
       </div>
     </div>
@@ -370,20 +449,31 @@
 </template>
 
 <script>
+import ModalPrice from "./components/ModalPrice.vue";
 export default {
   name: "App",
+  components: { ModalPrice },
   data() {
     return {
       contacts: [
         {
           title: "Номер телефона",
           text: "+38 (067) 765 13 07",
+          target: "_self",
+          href: "tel:+380677651307",
         },
         {
           title: "Instagram",
           text: "@nikolaeva.yuliia",
+          target: "_blank",
+          href: "https://www.instagram.com/nikolaeva.yuliia?r=nametag",
         },
-        { title: "Telegram", text: "@YuliiaNikolaieva" },
+        {
+          title: "Telegram",
+          text: "@YuliiaNikolaieva",
+          target: "_blank",
+          href: "https://t.me/YuliiaNikolaieva",
+        },
       ],
       aboutList: [
         "окончила Институт реинкарнационики Мариса Дрешманиса;",
@@ -469,7 +559,99 @@ export default {
           newPrice: "560$",
         },
       ],
+      sliderCount: 0,
+      interval: Function,
+      isModalPrice: false,
     };
+  },
+  methods: {
+    showModalPrice() {
+      this.isModalPrice = true;
+    },
+    hideModalPrice() {
+      // this.isModalPrice = false;
+    },
+    hoverPrice(event) {
+      const _this = event.target;
+      const prices = document.querySelectorAll(".price-block-item");
+      prices.forEach((el) => {
+        el.style.backgroundColor = "rgba(255, 241, 247, 0.7)";
+        el.style.transform = "scale(1)";
+        el.style.zIndex = "0";
+      });
+      _this.style.backgroundColor = "#FFF1F7";
+      _this.style.transform = "scale(1.2)";
+      _this.style.zIndex = "100";
+    },
+    unhoverPrice(event) {
+      const _this = event.target;
+      _this.style.backgroundColor = "rgba(255, 241, 247, 0.7)";
+      _this.style.transform = "scale(1)";
+      _this.style.zIndex = "0";
+    },
+    decrSliderCount() {
+      clearInterval(this.interval);
+      this.sliderCount = this.sliderCount == 0 ? 5 : this.sliderCount - 1;
+      this.pics.forEach((el) => {
+        el.style.display = "none";
+      });
+      this.points.forEach((el) => {
+        el.style.backgroundColor = "#b9b9b9";
+      });
+      this.pics[this.sliderCount].style.display = "block";
+      this.points[this.sliderCount].style.backgroundColor = "#AE758D";
+      this.interval = setInterval(() => {
+        this.sliderCount = this.sliderCount == 5 ? 0 : this.sliderCount + 1;
+        this.pics.forEach((el) => {
+          el.style.display = "none";
+        });
+        this.points.forEach((el) => {
+          el.style.backgroundColor = "#b9b9b9";
+        });
+        this.pics[this.sliderCount].style.display = "block";
+        this.points[this.sliderCount].style.backgroundColor = "#AE758D";
+      }, 5000);
+    },
+    addSliderCount() {
+      clearInterval(this.interval);
+      this.sliderCount = this.sliderCount == 5 ? 0 : this.sliderCount + 1;
+      this.pics.forEach((el) => {
+        el.style.display = "none";
+      });
+      this.points.forEach((el) => {
+        el.style.backgroundColor = "#b9b9b9";
+      });
+      this.pics[this.sliderCount].style.display = "block";
+      this.points[this.sliderCount].style.backgroundColor = "#AE758D";
+      this.interval = setInterval(() => {
+        this.sliderCount = this.sliderCount == 5 ? 0 : this.sliderCount + 1;
+        this.pics.forEach((el) => {
+          el.style.display = "none";
+        });
+        this.points.forEach((el) => {
+          el.style.backgroundColor = "#b9b9b9";
+        });
+        this.pics[this.sliderCount].style.display = "block";
+        this.points[this.sliderCount].style.backgroundColor = "#AE758D";
+      }, 5000);
+    },
+  },
+  mounted() {
+    this.pics = document.querySelectorAll(".reviews-slider__img");
+    this.points = document.querySelectorAll(".reviews-points__point");
+    this.pics[this.sliderCount].style.display = "block";
+    this.points[this.sliderCount].style.backgroundColor = "#AE758D";
+    this.interval = setInterval(() => {
+      this.sliderCount = this.sliderCount == 5 ? 0 : this.sliderCount + 1;
+      this.pics.forEach((el) => {
+        el.style.display = "none";
+      });
+      this.points.forEach((el) => {
+        el.style.backgroundColor = "#b9b9b9";
+      });
+      this.pics[this.sliderCount].style.display = "block";
+      this.points[this.sliderCount].style.backgroundColor = "#AE758D";
+    }, 5000);
   },
 };
 </script>
@@ -904,6 +1086,7 @@ header {
     flex-wrap: nowrap;
     justify-content: space-between;
     &-item {
+      position: relative;
       padding: 5px;
       width: 289px;
       height: 490px;
@@ -1033,7 +1216,7 @@ header {
     display: block;
     width: 280px;
     height: 60px;
-    line-height: 60px;
+    line-height: 54px;
     font-style: normal;
     font-weight: bold;
     font-size: 18px;
@@ -1142,6 +1325,79 @@ header {
   }
 }
 
+.reviews {
+  width: 1216px;
+  overflow: hidden;
+  margin: 100px auto 150px auto;
+  display: flex;
+  flex-direction: column;
+  &-title {
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 34px;
+  }
+  &-slider {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__img {
+      display: none;
+    }
+    &__arrow-left,
+    &__arrow-right {
+      position: absolute;
+      top: 50%;
+      margin-top: -12px;
+    }
+    &__arrow-left {
+      left: 0;
+    }
+    &__arrow-right {
+      right: 0;
+    }
+  }
+  &-points {
+    margin-bottom: 35px;
+    display: flex;
+    justify-content: center;
+    &__point {
+      &:not(:last-child) {
+        margin-right: 15px;
+      }
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      background-color: #b9b9b9;
+    }
+  }
+  &-text {
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 160%;
+    margin-bottom: 15px;
+  }
+  &-button {
+    text-align: center;
+    text-decoration: none;
+    margin: 0 auto;
+    display: block;
+    width: 280px;
+    height: 60px;
+    line-height: 54px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    border: 3px solid #ae758d;
+  }
+}
+
 .contact {
   width: 907px;
   margin: 0 auto 200px auto;
@@ -1178,6 +1434,7 @@ header {
           line-height: 18px;
         }
         &-text {
+          text-decoration: none;
           margin-top: 10px;
           font-style: normal;
           font-weight: bold;
