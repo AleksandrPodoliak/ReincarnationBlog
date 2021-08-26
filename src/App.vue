@@ -623,7 +623,7 @@ export default {
         this.pics[this.sliderCount].style.display = "block";
         this.points[this.sliderCount].style.backgroundColor = "#AE758D";
       }, 5000);
-      this.selectedImage = "";
+      this.selectedImage = '';
       this.isModalImage = false;
     },
     successModalPrice(userData) {
@@ -632,7 +632,6 @@ export default {
         chat_id: "645151842",
         text: `Заявка на ${this.programTitle} от:\n\n${userData.userName}\n${userData.userPhone}\n${userData.userEmail}`,
       });
-
       this.isModalPrice = false;
       this.titleModalThanks = "Спасибо! Ваша запись принята!";
       this.textModalThanks =
