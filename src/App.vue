@@ -365,7 +365,7 @@
           <span class="form-inputs-block__name">Ваш e-mail:</span>
           <input
             id="email"
-            type="email"
+            type="text"
             placeholder="vladislava99@gmail.com"
             v-model="userEmail"
           />
