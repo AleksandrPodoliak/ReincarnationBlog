@@ -392,8 +392,8 @@
       />
       <img
         @click="selectImage"
-        @mouseenter="stopInterval"
-        @mouseleave="startInterval"
+        @mousedown="stopInterval"
+        @mouseup="startIntervalonMobile"
         v-for="(n, index) in 7"
         :key="index"
         :src="require(`@/assets/review` + (index + 1) + `.png`)"
@@ -615,24 +615,14 @@ export default {
       }
     },
     hideModalImage() {
-      this.interval = setInterval(() => {
-        this.sliderCount = this.sliderCount == 6 ? 0 : this.sliderCount + 1;
-        this.pics.forEach((el) => {
-          el.style.display = "none";
-        });
-        this.points.forEach((el) => {
-          el.style.backgroundColor = "#b9b9b9";
-        });
-        this.pics[this.sliderCount].style.display = "block";
-        this.points[this.sliderCount].style.backgroundColor = "#AE758D";
-      }, 5000);
+      this.startInterval();
       this.selectedImage = "";
       this.isModalImage = false;
     },
     successModalPrice(userData) {
       const apiUrl = `https://api.telegram.org/bot${process.env.VUE_APP_TOKEN}/sendMessage`;
       axios.post(apiUrl, {
-        chat_id: "645151842",
+        chat_id: process.env.VUE_APP_CHAT_ID,
         text: `Заявка на ${this.programTitle} от:\n\n${userData.userName}\n${userData.userPhone}\n${userData.userEmail}`,
       });
       this.isModalPrice = false;
@@ -645,7 +635,7 @@ export default {
       if (this.userName && this.userPhone) {
         const apiUrl = `https://api.telegram.org/bot${process.env.VUE_APP_TOKEN}/sendMessage`;
         axios.post(apiUrl, {
-          chat_id: "645151842",
+          chat_id: process.env.VUE_APP_CHAT_ID,
           text: `Заявка на консультацию от:\n\n${this.userName}\n${this.userPhone}\n${this.userEmail}`,
         });
 
@@ -678,17 +668,7 @@ export default {
       });
       this.pics[this.sliderCount].style.display = "block";
       this.points[this.sliderCount].style.backgroundColor = "#AE758D";
-      this.interval = setInterval(() => {
-        this.sliderCount = this.sliderCount == 6 ? 0 : this.sliderCount + 1;
-        this.pics.forEach((el) => {
-          el.style.display = "none";
-        });
-        this.points.forEach((el) => {
-          el.style.backgroundColor = "#b9b9b9";
-        });
-        this.pics[this.sliderCount].style.display = "block";
-        this.points[this.sliderCount].style.backgroundColor = "#AE758D";
-      }, 5000);
+      this.startInterval();
     },
     addSliderCount() {
       clearInterval(this.interval);
@@ -701,6 +681,17 @@ export default {
       });
       this.pics[this.sliderCount].style.display = "block";
       this.points[this.sliderCount].style.backgroundColor = "#AE758D";
+      this.startInterval();
+    },
+    stopInterval() {
+      if (window.innerWidth <= this.mobileWidth) clearInterval(this.interval);
+    },
+    startIntervalonMobile() {
+      if (window.innerWidth <= this.mobileWidth) {
+        this.startInterval();
+      }
+    },
+    startInterval() {
       this.interval = setInterval(() => {
         this.sliderCount = this.sliderCount == 6 ? 0 : this.sliderCount + 1;
         this.pics.forEach((el) => {
@@ -713,41 +704,13 @@ export default {
         this.points[this.sliderCount].style.backgroundColor = "#AE758D";
       }, 5000);
     },
-    stopInterval() {
-      if (window.innerWidth <= this.mobileWidth) clearInterval(this.interval);
-    },
-    startInterval() {
-      if (window.innerWidth <= this.mobileWidth) {
-        this.interval = setInterval(() => {
-          this.sliderCount = this.sliderCount == 6 ? 0 : this.sliderCount + 1;
-          this.pics.forEach((el) => {
-            el.style.display = "none";
-          });
-          this.points.forEach((el) => {
-            el.style.backgroundColor = "#b9b9b9";
-          });
-          this.pics[this.sliderCount].style.display = "block";
-          this.points[this.sliderCount].style.backgroundColor = "#AE758D";
-        }, 5000);
-      }
-    },
   },
   mounted() {
     this.pics = document.querySelectorAll(".reviews-slider__img");
     this.points = document.querySelectorAll(".reviews-points__point");
     this.pics[this.sliderCount].style.display = "block";
     this.points[this.sliderCount].style.backgroundColor = "#AE758D";
-    this.interval = setInterval(() => {
-      this.sliderCount = this.sliderCount == 6 ? 0 : this.sliderCount + 1;
-      this.pics.forEach((el) => {
-        el.style.display = "none";
-      });
-      this.points.forEach((el) => {
-        el.style.backgroundColor = "#b9b9b9";
-      });
-      this.pics[this.sliderCount].style.display = "block";
-      this.points[this.sliderCount].style.backgroundColor = "#AE758D";
-    }, 5000);
+    this.startInterval();
   },
 };
 </script>
