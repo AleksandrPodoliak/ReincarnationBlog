@@ -45,13 +45,15 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0 68px;
+    padding: 15px;
     box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
     position: relative;
-    height: 85%;
+    height: 90%;
+    max-width: 85%;
     background-color: #fff;
     &__image {
-      height: 100%;
+      max-height: 100%;
+      width: 100%;
     }
     &__close {
       position: absolute;

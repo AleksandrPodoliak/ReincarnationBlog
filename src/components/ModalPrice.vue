@@ -141,4 +141,24 @@ export default {
     margin-top: 32px !important;
   }
 }
+
+@media screen and (max-width: 340px) {
+  .modal-price {
+    &-block {
+      width: 90%;
+      &__close {
+        margin: 10px;
+        width: 35px;
+      }
+    }
+  }
+
+  .form {
+    width: 95%;
+      &-inputs-button {
+        width: 90%;
+    margin-top: 32px !important;
+  }
+  }
+}
 </style>

@@ -75,4 +75,24 @@ export default {
     }
   }
 }
+
+@media screen and (max-width: 340px) {
+  .modal-thanks {
+    &-block {
+      width: 90%;
+      padding: 5%;
+      &__title {
+        font-size: 20px;
+        line-height: 22px;
+      }
+      &__text {
+        font-size: 16px;
+        line-height: 18px;
+      }
+      &__button {
+        width: 95%;
+      }
+    }
+  }
+}
 </style>
