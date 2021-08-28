@@ -24,8 +24,8 @@
         <p class="header-content-info__text">
           Со мной ты начнешь менять жизнь уже после первого сеанса. Я работаю в
           самом экологичном, быстром, действенном методе для трансформации твоей
-          жизни. Мудрая душа помнит и знает всё<br />Выбери пакет сеансов ниже -
-          позволь себе отыскать ответы в прошлых жизнях, во Благо своего
+          жизни. Мудрая душа помнит и знает всё.<br />Выбери пакет сеансов ниже
+          - позволь себе отыскать ответы в прошлых жизнях, во Благо своего
           светлого будущего.
         </p>
         <a class="header-content-info__button btn" href="#price"
@@ -40,7 +40,7 @@
     </div>
   </header>
   <section class="product">
-    <h2 class="product-title">О реинкарнационике</h2>
+    <h2 class="product-title">О реинкарнациологии</h2>
     <div class="product-block">
       <div class="product-block__inner">
         Простой и быстрый способ активации памяти вашей Души, памяти Прошлых
@@ -271,8 +271,6 @@
       <h2 class="price-title">Стоимость</h2>
       <div class="price-block">
         <div
-          @mouseenter="hoverPrice"
-          @mouseleave="unhoverPrice"
           v-for="(program, index) in programs"
           :key="index"
           class="price-block-item"
@@ -394,6 +392,8 @@
       />
       <img
         @click="selectImage"
+        @mouseenter="stopInterval"
+        @mouseleave="startInterval"
         v-for="(n, index) in 7"
         :key="index"
         :src="require(`@/assets/review` + (index + 1) + `.png`)"
@@ -602,11 +602,12 @@ export default {
       userPhone: "",
       userEmail: "",
       selectedImage: "",
+      mobileWidth: 420,
     };
   },
   methods: {
     selectImage(event) {
-      if (window.innerWidth > 340) {
+      if (window.innerWidth > this.mobileWidth) {
         clearInterval(this.interval);
         const _this = event.target;
         this.selectedImage = _this.getAttribute("data-photo");
@@ -666,28 +667,6 @@ export default {
     hideModalThanks() {
       this.isModalThanks = false;
     },
-    hoverPrice(event) {
-      if (window.innerWidth > 340) {
-        const _this = event.target;
-        const prices = document.querySelectorAll(".price-block-item");
-        prices.forEach((el) => {
-          el.style.backgroundColor = "rgba(255, 241, 247, 0.7)";
-          el.style.transform = "scale(1)";
-          el.style.zIndex = "0";
-        });
-        _this.style.backgroundColor = "#FFF1F7";
-        _this.style.transform = "scale(1.2)";
-        _this.style.zIndex = "100";
-      }
-    },
-    unhoverPrice(event) {
-      if (window.innerWidth > 340) {
-        const _this = event.target;
-        _this.style.backgroundColor = "rgba(255, 241, 247, 0.7)";
-        _this.style.transform = "scale(1)";
-        _this.style.zIndex = "0";
-      }
-    },
     decrSliderCount() {
       clearInterval(this.interval);
       this.sliderCount = this.sliderCount == 0 ? 6 : this.sliderCount - 1;
@@ -734,6 +713,24 @@ export default {
         this.points[this.sliderCount].style.backgroundColor = "#AE758D";
       }, 5000);
     },
+    stopInterval() {
+      if (window.innerWidth <= this.mobileWidth) clearInterval(this.interval);
+    },
+    startInterval() {
+      if (window.innerWidth <= this.mobileWidth) {
+        this.interval = setInterval(() => {
+          this.sliderCount = this.sliderCount == 6 ? 0 : this.sliderCount + 1;
+          this.pics.forEach((el) => {
+            el.style.display = "none";
+          });
+          this.points.forEach((el) => {
+            el.style.backgroundColor = "#b9b9b9";
+          });
+          this.pics[this.sliderCount].style.display = "block";
+          this.points[this.sliderCount].style.backgroundColor = "#AE758D";
+        }, 5000);
+      }
+    },
   },
   mounted() {
     this.pics = document.querySelectorAll(".reviews-slider__img");
@@ -768,6 +765,7 @@ export default {
   font-family: Garamond;
   color: #111;
 }
+
 #app {
   overflow: hidden;
   min-width: 1216px;
@@ -781,6 +779,7 @@ header {
   padding: 40px 0 0 0;
   background-image: url("assets/header-back.png");
   background-size: cover;
+  background-position: 50% 0%;
 }
 .header-content {
   position: relative;
@@ -899,6 +898,7 @@ header {
 
 .methods_n_sessions {
   background-image: url("assets/methods-back.png");
+  background-position: 50% 0%;
   background-size: cover;
   height: 1303px;
   margin-bottom: 80px;
@@ -1027,6 +1027,7 @@ header {
 
 .main {
   background-image: url("assets/main-back.png");
+  background-position: 50% 0%;
   background-size: cover;
   height: 3348px;
   margin-bottom: 80px;
@@ -1190,8 +1191,14 @@ header {
       padding: 5px;
       width: 289px;
       height: 490px;
-      background: rgba(255, 241, 247, 0.7);
+      background-color: rgba(255, 241, 247, 0.7);
+      z-index: 0;
       box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
+      &:hover {
+        background-color: #fff1f7;
+        transform: scale(1.2);
+        z-index: 100;
+      }
       &-inner {
         padding: 20px 20px 25px 20px;
         display: flex;
@@ -1764,7 +1771,7 @@ header {
   }
 }
 
-@media screen and (max-width: 340px) {
+@media screen and (max-width: 420px) {
   #app {
     min-width: 100%;
     margin: 0 auto;
@@ -1811,7 +1818,7 @@ header {
         margin-bottom: 20px;
       }
       &__text {
-        font-size: 13px;
+        font-size: 14px;
         line-height: 150%;
         margin-bottom: 30px;
       }
@@ -1910,7 +1917,6 @@ header {
     }
   }
   .main {
-    background-image: url("assets/main-back-mobile.png");
     padding: 0 10px;
     height: unset;
   }
@@ -1931,13 +1937,50 @@ header {
       top: 230px;
     }
     &-point {
+      width: 100%;
       left: 0;
       margin-left: 42px;
+      &.point1 {
+        top: 275px;
+      }
+      &.point2 {
+        top: 325px;
+      }
+      &.point3 {
+        top: 375px;
+      }
+      &.point4 {
+        top: 425px;
+      }
+      &.point5 {
+        top: 475px;
+      }
+      &.point6 {
+        top: 525px;
+      }
+      &.point7 {
+        top: 575px;
+      }
+      &.point8 {
+        top: 625px;
+      }
+      &.point9 {
+        top: 675px;
+      }
+      &.point10 {
+        top: 725px;
+      }
+      &.point11 {
+        top: 775px;
+      }
+      &.point12 {
+        top: 825px;
+      }
       &__text {
         margin-top: 0;
-        max-width: 200px;
+        max-width: unset;
+        width: 80%;
         padding: 0;
-        width: 239px;
         font-size: 12px;
         line-height: 160%;
         &.left {
@@ -1993,6 +2036,11 @@ header {
       &-item {
         width: 100%;
         margin-bottom: 30px;
+        &:hover {
+          background-color: rgba(255, 241, 247, 0.7);
+          z-index: 0;
+          transform: scale(1);
+        }
       }
     }
   }

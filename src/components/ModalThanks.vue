@@ -46,6 +46,7 @@ export default {
     width: 568px;
     height: 300px;
     background-image: url("../assets/modal-price-back.png");
+    background-position: 50% 0%;
     &__title {
       text-align: center;
       margin-bottom: 15px;
@@ -76,7 +77,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 340px) {
+@media screen and (max-width: 420px) {
   .modal-thanks {
     &-block {
       width: 90%;

@@ -103,6 +103,7 @@ export default {
     width: 568px;
     height: 475px;
     background-image: url("../assets/modal-price-back.png");
+    background-position: 50% 0%;
     &__title {
       text-align: center;
       margin: 50px 0 15px 0;
@@ -142,7 +143,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 340px) {
+@media screen and (max-width: 420px) {
   .modal-price {
     &-block {
       width: 90%;
@@ -155,10 +156,10 @@ export default {
 
   .form {
     width: 95%;
-      &-inputs-button {
-        width: 90%;
-    margin-top: 32px !important;
-  }
+    &-inputs-button {
+      width: 90%;
+      margin-top: 32px !important;
+    }
   }
 }
 </style>
