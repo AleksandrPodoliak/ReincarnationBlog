@@ -20,5 +20,29 @@
       >
     </noscript>
     <div id="app"></div>
+    <script defer>
+      function initMap() {
+        let options = {
+          zoom: 19,
+          center: {lat: 48.4660135, lng: 35.0551861}
+        }
+        let map = new google.maps.Map(document.getElementById("map"), options);
+        let marker = new google.maps.Marker({
+          position: {lat: 48.4660135, lng: 35.0551861},
+          map,
+          iconImage: ''
+        });
+        let infoWindow = new google.maps.InfoWindow({
+          content: `<h3>Hillel IT School<h3>`
+        });
+        marker.addListener('mouseover', () => {
+          infoWindow.open(map, marker)
+        })
+      }
+    </script>
+    <script defer
+      src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
+    ></script>
+
   </body>
 </html>

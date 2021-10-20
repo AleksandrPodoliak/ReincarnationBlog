@@ -43,7 +43,7 @@
             />
           </div>
           <input
-            @click="successModal"
+            @click.prevent="successModal"
             class="form-inputs-button btn"
             type="submit"
             value="Записаться на сеанс"

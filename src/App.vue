@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="headline">
     <div class="header-content">
       <div class="header-content-lotos">
         <img src="@/assets/header-lotos.png" alt="lotos" />
@@ -39,7 +39,7 @@
       />
     </div>
   </header>
-  <section class="product">
+  <section class="product headline">
     <h2 class="product-title">О реинкарнациологии</h2>
     <div class="product-block">
       <div class="product-block__inner">
@@ -94,10 +94,10 @@
           </div>
         </div>
       </div>
-      <div class="sessions-text">
+      <div class="sessions-text headline">
         Для ЛЮБОГО, кто хочет и готов!
       </div>
-      <div class="sessions-text-footer">
+      <div class="sessions-text-footer headline">
         Если Вы читаете этот сайт, значит, пришло время для кардинальной
         трансформации. Вы нашли эффективный инструмент решения своих вопросов.
         Отбросьте все сомнения и последуйте за своей интуицией!
@@ -241,6 +241,7 @@
           v-for="(text, index) in resultText"
           :key="index"
           class="result-block-item"
+          :class="index % 2 === 0 ? 'resultL' : 'resultR'"
         >
           <div class="result-block-item__inner">
             {{ text }}
@@ -303,7 +304,7 @@
         </div>
       </div>
     </div>
-    <div class="about">
+    <div class="about headline">
       <h2 class="about-title">Обо мне</h2>
       <ul class="about-list">
         Мой опыт – улучшение качества вашей жизни. Немного обо мне:
@@ -374,7 +375,7 @@
         </p>
         <input
           type="submit"
-          @click="showModalThanks"
+          @click.prevent="showModalThanks"
           class="form-inputs-button btn"
           value="Записаться"
         />
@@ -446,6 +447,7 @@
       </div>
     </div>
   </section>
+  <div id="map"></div>
   <footer class="footer">
     <img src="@/assets/footer-flower.png" alt="flower" class="footer-flower" />
     <a href="#" class="footer-upper"
@@ -467,9 +469,12 @@
 </template>
 
 <script>
+import ScrollReveal from "scrollreveal";
 import ModalPrice from "./components/ModalPrice.vue";
 import ModalThanks from "./components/ModalThanks.vue";
 import ModalImage from "./components/ModalImage.vue";
+import { requester } from "./requester.js";
+import { v4 as uuidv4 } from 'uuid';
 import axios from "axios";
 
 export default {
@@ -477,118 +482,11 @@ export default {
   components: { ModalPrice, ModalThanks, ModalImage },
   data() {
     return {
-      contacts: [
-        {
-          title: "Номер телефона",
-          text: "+38 (067) 765 13 07",
-          target: "_self",
-          href: "tel:+380677651307",
-        },
-        {
-          title: "Instagram",
-          text: "@nikolaeva.yuliia",
-          target: "_blank",
-          href: "https://www.instagram.com/nikolaeva.yuliia?r=nametag",
-        },
-        {
-          title: "Telegram",
-          text: "@YuliiaNikolaieva",
-          target: "_blank",
-          href: "https://t.me/YuliiaNikolaieva",
-        },
-      ],
-      aboutList: [
-        "окончила Институт реинкарнационики Мариса Дрешманиса;",
-        "прошла целительный курс Татьяны Абоалелы;",
-        " уже несколько лет делюсь приобретенным опытом, на основе которого запустила собственный марафон;",
-        "использую в своей жизни дыхательные и даосские пратики, медитации, аффирмации, интуитивное питание, вакуум живота и не только – то, что способствует оздоровлению тела и контакту с душой.",
-      ],
-      sessionsCards: [
-        {
-          text: `Пробовал традиционные сеансы и терапии, но облегчения не испытал`,
-          img: require(`@/assets/sessions-1.png`),
-        },
-        {
-          text: `Дорожит своим временем. То, что не решалось годами, можно изменить за 1-8 сеансов`,
-          img: require(`@/assets/sessions-2.png`),
-        },
-        {
-          text: `Желает обрести гармонию – идти по тому жизненному пути, который выбрала душа, а не навязало общество`,
-          img: require(`@/assets/sessions-3.png`),
-        },
-        {
-          text: `Долгое время не может найти ответы на свои вопросы. Ходит по кругу и не может изменить сценарии своей жизни (идёт по разрушительным родовым сценариям)`,
-          img: require(`@/assets/sessions-4.png`),
-        },
-        {
-          text: `Имеет страхи и зависимости. Не знает куда двигаться дальше.  Имеет не экологичные отношения. Не может выйти на новый доход, не реализован. Имеет вопросы по здоровью и т.д.`,
-          img: require(`@/assets/sessions-5.png`),
-        },
-        {
-          text: `Хочет не просто получить советы и рекомендации, а установить причинно-следственные связи, чтобы в корне изменить отношение к ситуации`,
-          img: require(`@/assets/sessions-6.png`),
-        },
-      ],
-      resultText: [
-        "Осознанное реагирование на свою жизнь, ситуации и людей. Сформируете новые нейронные связи",
-        "Научитесь менять пространство вокруг себя наилучшим образом, улавливая подсказки Вселенной",
-        "Обострение каналов восприятия мира: я знаю, я вижу, я чувствую, я слышу",
-        "Получите поддержку своих наставников, рода и Ангелов Хранителей",
-      ],
-      programs: [
-        {
-          id: "0",
-          name: "Первый шаг",
-          content: "сеанс",
-          descr: [
-            "1 погружение",
-            "Предконсультация (формирование запроса клиента, ответы на вопросы) до 30 мин",
-            "Cеанс 2-2.5 часа по вашему запросу",
-            "Постконсультация (спустя 2-7 дней после сеанса) до 30 мин",
-          ],
-          oldPrice: "",
-          newPrice: "100$",
-        },
-        {
-          id: "1",
-          name: "Пакет «Осознание»",
-          content: "пакет",
-          descr: [
-            "4 погружения",
-            "Предконсультации (формирование запроса клиента, ответы на вопросы перед каждым сеансом) до 30 мин",
-            "Сеанс 2-2.5 часа по вашему запросу",
-            "Постконсультация (спустя 2-7 дней после сеанса) до 30 мин",
-          ],
-          oldPrice: "400$",
-          newPrice: "320$",
-        },
-        {
-          id: "2",
-          name: "Пакет «Преображение»",
-          content: "пакет",
-          descr: [
-            "6 погружений",
-            "Предконсультации (формирование запроса клиента, ответы на вопросы перед каждым сеансом) до 30 мин",
-            "Сеанс 2-2.5 часа по вашему запросу",
-            "Постконсультация (спустя 2-7 дней после сеанса) до 30 мин",
-          ],
-          oldPrice: "600$",
-          newPrice: "450$",
-        },
-        {
-          id: "3",
-          name: "Пакет «Перерождение»",
-          content: "пакет",
-          descr: [
-            "8 погружений",
-            "Предконсультации (формирование запроса клиента, ответы на вопросы перед каждым сеансом) до 30 мин",
-            "Сеанс 2-2.5 часа по вашему запросу",
-            "Постконсультация (спустя 2-7 дней после сеанса) до 30 мин",
-          ],
-          oldPrice: "800$",
-          newPrice: "560$",
-        },
-      ],
+      contacts: [],
+      aboutList: [],
+      sessionsCards: [],
+      resultText: [],
+      programs: [],
       sliderCount: 0,
       interval: Function,
       isModalPrice: false,
@@ -620,10 +518,11 @@ export default {
       this.isModalImage = false;
     },
     successModalPrice(userData) {
-      const apiUrl = `https://api.telegram.org/bot${process.env.VUE_APP_TOKEN}/sendMessage`;
-      axios.post(apiUrl, {
-        chat_id: process.env.VUE_APP_CHAT_ID,
-        text: `Заявка на ${this.programTitle} от:\n\n${userData.userName}\n${userData.userPhone}\n${userData.userEmail}`,
+      axios.post(process.env.VUE_APP_API_TELEGRAM, {
+        id: uuidv4(),
+        userName: userData.userName,
+        userPhone: userData.userPhone,
+        userEmail: userData.userEmail,
       });
       this.isModalPrice = false;
       this.titleModalThanks = "Спасибо! Ваша запись принята!";
@@ -633,10 +532,11 @@ export default {
     },
     showModalThanks() {
       if (this.userName && this.userPhone) {
-        const apiUrl = `https://api.telegram.org/bot${process.env.VUE_APP_TOKEN}/sendMessage`;
-        axios.post(apiUrl, {
-          chat_id: process.env.VUE_APP_CHAT_ID,
-          text: `Заявка на консультацию от:\n\n${this.userName}\n${this.userPhone}\n${this.userEmail}`,
+        axios.post(process.env.VUE_APP_API_TELEGRAM, {
+          id: uuidv4(),
+          userName: this.userName,
+          userPhone: this.userPhone,
+          userEmail: this.userEmail,
         });
 
         this.titleModalThanks = "Спасибо! Ваша запись на консультацию принята!";
@@ -705,12 +605,81 @@ export default {
       }, 5000);
     },
   },
-  mounted() {
+  async mounted() {
     this.pics = document.querySelectorAll(".reviews-slider__img");
     this.points = document.querySelectorAll(".reviews-points__point");
     this.pics[this.sliderCount].style.display = "block";
     this.points[this.sliderCount].style.backgroundColor = "#AE758D";
+    [
+      this.contacts,
+      this.programs,
+      this.aboutList,
+      this.resultText,
+      this.sessionsCards,
+    ] = await Promise.all([
+      requester("getContact"),
+      requester("getPrograms"),
+      requester("getAboutList"),
+      requester("getResultText"),
+      requester("getSessionsCards"),
+    ]);
     this.startInterval();
+
+    ScrollReveal().reveal(".headline", { duration: 1000, reset: true });
+    ScrollReveal().reveal(
+      ".header-content-info__title, .header-content-info__name, .header-content-info__text, .header-content-info__button",
+      {
+        interval: 100,
+        reset: true,
+        distance: "50px",
+        easing: "ease-in",
+        origin: "top",
+        rotate: {
+          x: 0,
+          y: 60,
+          z: 0,
+        },
+      }
+    );
+    ScrollReveal().reveal(".product, .form", {
+      reset: true,
+      distance: "250px",
+      easing: "ease-out",
+      origin: "left",
+    });
+    ScrollReveal().reveal(".methods, .reviews", {
+      reset: true,
+      distance: "250px",
+      easing: "ease-out",
+      origin: "right",
+    });
+    ScrollReveal().reveal(".problems", {
+      duration: 1000,
+      reset: true,
+      distance: "500px",
+      easing: "ease-out",
+      origin: "bottom",
+    });
+    ScrollReveal().reveal(".contact", { reset: true, scale: 0.75 });
+    setTimeout(() => {
+      ScrollReveal().reveal(".sessions-cards-item, .price-block-item", {
+        interval: 150,
+        duration: 1000,
+        reset: true,
+      });
+      ScrollReveal().reveal(".resultL", {
+        reset: true,
+        distance: "350px",
+        easing: "ease-in",
+        origin: "left",
+      });
+      ScrollReveal().reveal(".resultR", {
+        reset: true,
+        distance: "350px",
+        easing: "ease-in",
+        origin: "right",
+      });
+    }, 1000);
   },
 };
 </script>
@@ -721,7 +690,33 @@ export default {
   src: url("assets/fonts/Garamond.TTF");
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-button {
+  background-color: transparent;
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-track {
+  width: 8px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+  display: none;
+}
+
 * {
+  scroll-behavior: smooth;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -734,6 +729,11 @@ export default {
   min-width: 1216px;
   width: 100%;
   margin: 0 auto;
+}
+
+#map {
+  height: 400px;
+  width: 100%;
 }
 
 header {
@@ -1475,7 +1475,7 @@ header {
 
 .contact {
   width: 907px;
-  margin: 0 auto 200px auto;
+  margin: 0 auto 150px auto;
   &-title {
     text-align: center;
     font-style: normal;
@@ -1525,7 +1525,7 @@ header {
 .footer {
   position: relative;
   width: 1216px;
-  margin: 0 auto 50px auto;
+  margin: 50px auto 50px auto;
   display: flex;
   justify-content: center;
   &-upper {
@@ -1712,7 +1712,7 @@ header {
   .contact {
     padding: 0 20px;
     width: 100%;
-    margin: 0 auto 150px auto;
+    margin: 0 auto 100px auto;
     &-block {
       &-item {
         width: 229px;
@@ -1723,7 +1723,7 @@ header {
   .footer {
     padding: 0 20px;
     width: 100%;
-    margin: 0 auto 60px auto;
+    margin: 50px auto 60px auto;
     &-upper {
       width: 66px;
       top: 75px;
@@ -2126,7 +2126,7 @@ header {
   .contact {
     padding: 0 10px;
     width: 100%;
-    margin: 0 auto 100px auto;
+    margin: 0 auto 50px auto;
     &-title {
       font-size: 26px;
     }
@@ -2143,7 +2143,7 @@ header {
   .footer {
     padding: 0 10px;
     width: 100%;
-    margin: 0 auto 100px auto;
+    margin: 50px auto 100px auto;
     &-upper {
       width: 66px;
       top: 75px;
