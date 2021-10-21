@@ -474,7 +474,7 @@ import ModalPrice from "./components/ModalPrice.vue";
 import ModalThanks from "./components/ModalThanks.vue";
 import ModalImage from "./components/ModalImage.vue";
 import { requester } from "./requester.js";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
 export default {
@@ -518,6 +518,14 @@ export default {
       this.isModalImage = false;
     },
     successModalPrice(userData) {
+
+        // //Proxy is needed
+        // const apiUrl = `https://api.telegram.org/bot1966851462:AAFpqqrobzxSwDckDHZ_jI2QOyjResmj1Iw/sendMessage`;
+        // axios.post(apiUrl, {
+        //   chat_id: 369533332,
+        //   text: `Заявка на ${this.programTitle} от:\n\n${userData.userName}\n${userData.userPhone}\n${userData.userEmail}`,
+        // });
+
       axios.post(process.env.VUE_APP_API_TELEGRAM, {
         id: uuidv4(),
         userName: userData.userName,
@@ -532,6 +540,7 @@ export default {
     },
     showModalThanks() {
       if (this.userName && this.userPhone) {
+
         axios.post(process.env.VUE_APP_API_TELEGRAM, {
           id: uuidv4(),
           userName: this.userName,
